@@ -1,0 +1,139 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  min-width: 320px;
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  height: 52px;
+  padding: 0 var(--s3) 0 var(--s4);
+  background: var(--bg);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--s2);
+  min-width: 0;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--r-md);
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.product {
+  flex: none;
+  font-size: var(--t-md);
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.slash {
+  color: var(--line-strong);
+  font-size: var(--t-lg);
+}
+
+.sheetName {
+  margin: 0;
+  overflow: hidden;
+  font-size: var(--t-md);
+  font-weight: 500;
+  color: var(--text-2);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.tools {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  margin: 0 var(--s1);
+  background: var(--line-strong);
+}
+
+.save {
+  margin-left: auto;
+}
+
+.viewOnly {
+  padding: var(--s2) var(--s4);
+  background: var(--warn-soft);
+  color: var(--warn);
+  font-size: var(--t-sm);
+}
+
+.main {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  margin: 0;
+  border-bottom: 1px solid var(--line-strong);
+}
+
+.foot {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--s4);
+  height: 44px;
+  padding: 0 var(--s4) 0 var(--s2);
+  background: var(--bg);
+}
+
+.foot > :last-child {
+  align-self: center;
+}
+
+.code {
+  padding: 1px var(--s1);
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
+  font-family: var(--mono);
+  font-size: var(--t-sm);
+}
+
+@media (max-width: 720px) {
+  .product,
+  .slash {
+    display: none;
+  }
+  .top {
+    gap: var(--s2);
+  }
+}
+
+/* Phones: the footer stacks so neither the tabs nor the totals get squeezed out. */
+@media (max-width: 599px) {
+  .foot {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    height: auto;
+    padding-bottom: var(--s2);
+  }
+  .foot > :last-child {
+    align-self: flex-start;
+    padding-left: var(--s2);
+  }
+  .tools {
+    display: none;
+  }
+}

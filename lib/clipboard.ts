@@ -159,6 +159,8 @@ export interface InternalClip {
   c: number;
   cut: boolean;
   raws: string[][];
+  fullRows: number;
+  fullCols: number;
 }
 
 // Our own format can also be forged by any page, so it gets checked like everything else.
@@ -172,7 +174,8 @@ export function readInternal(json: string, maxRows: number, maxCols: number): In
       if (!Array.isArray(row)) return null;
       raws.push(row.slice(0, maxCols).map((v: unknown) => (typeof v === "string" ? cleanCell(v) : "")));
     }
-    return { v: 1, sheet: String(d.sheet ?? ""), r: d.r, c: d.c, cut: d.cut === true, raws };
+    const fullCols = d.raws.reduce((m: number, row: unknown) => Math.max(m, Array.isArray(row) ? row.length : 0), 0);
+    return { v: 1, sheet: String(d.sheet ?? ""), r: d.r, c: d.c, cut: d.cut === true, raws, fullRows: d.raws.length, fullCols };
   } catch {
     return null;
   }

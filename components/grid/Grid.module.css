@@ -1,0 +1,305 @@
+/*
+  Layering, bottom to top:
+  cells 0 · frozen column 2 · cell being edited 3 · row numbers 4 · column letters 5 · corner 6
+
+  A cell's look is built from three layers so states combine without special cases:
+  --mark (corner tick for computed/broken), --tint (selection), --cell-bg (base colour).
+*/
+
+.wrap {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+}
+
+.viewport {
+  flex: 1;
+  overflow: auto;
+  overscroll-behavior: contain;
+  background: var(--surface);
+  font-variant-numeric: tabular-nums;
+  --ring: var(--text-3);
+}
+
+.viewport:focus-visible {
+  box-shadow: none;
+}
+
+.viewport:focus-within {
+  --ring: var(--accent);
+}
+
+.canvas {
+  position: relative;
+}
+
+.headRow {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  height: var(--head-h);
+}
+
+.scrolledY .headRow {
+  box-shadow: 0 1px 0 var(--line-strong), 0 6px 8px -8px rgba(0, 0, 0, 0.3);
+}
+
+.body {
+  position: relative;
+}
+
+.row {
+  position: absolute;
+  left: 0;
+  display: flex;
+  height: var(--row-h);
+}
+
+.spacer {
+  flex: none;
+}
+
+.corner,
+.colHead,
+.rowHead {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  background: var(--surface-2);
+  color: var(--text-3);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  user-select: none;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  cursor: pointer;
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+
+.corner {
+  position: sticky;
+  left: 0;
+  z-index: 6;
+  width: var(--rowhead-w);
+  border-color: var(--line-strong);
+}
+
+.cornerMark {
+  width: 0;
+  height: 0;
+  margin: auto var(--s1) var(--s1) auto;
+  border-style: solid;
+  border-width: 0 0 7px 7px;
+  border-color: transparent transparent var(--line-strong) transparent;
+}
+
+.colHead {
+  position: relative;
+  height: var(--head-h);
+  border-bottom-color: var(--line-strong);
+}
+
+.frozenHead {
+  position: sticky;
+  left: var(--rowhead-w);
+  z-index: 1;
+}
+
+.rowHead {
+  position: sticky;
+  left: 0;
+  z-index: 4;
+  width: var(--rowhead-w);
+  border-right-color: var(--line-strong);
+  font-weight: 500;
+}
+
+.corner:hover,
+.colHead:hover,
+.rowHead:hover {
+  color: var(--text);
+}
+
+.headSel {
+  background: linear-gradient(var(--accent-soft), var(--accent-soft)), var(--surface-2);
+  color: var(--accent-strong);
+}
+
+.headWhole,
+.headWhole:hover {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.headWhole .cornerMark {
+  border-bottom-color: var(--accent-text);
+}
+
+.resize {
+  position: absolute;
+  top: 0;
+  right: -4px;
+  bottom: 0;
+  z-index: 1;
+  width: 8px;
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.resize::after {
+  content: "";
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 3px;
+  width: 2px;
+  border-radius: 1px;
+  background: var(--accent);
+  opacity: 0;
+  transition: opacity var(--fast) var(--ease);
+}
+
+.resize:hover::after,
+.resize:active::after {
+  opacity: 1;
+}
+
+@media (pointer: coarse) {
+  .resize {
+    right: -10px;
+    width: 20px;
+  }
+  .resize::after {
+    left: 9px;
+    opacity: 0.35;
+  }
+}
+
+.cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: none;
+  height: var(--row-h);
+  padding: 0 var(--s2);
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background-color: var(--cell-bg, var(--surface));
+  background-image: var(--mark, none), var(--tint, none);
+  color: var(--text);
+  cursor: cell;
+}
+
+.value {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.num {
+  justify-content: flex-end;
+}
+
+.computed {
+  color: var(--computed);
+  --mark: linear-gradient(135deg, color-mix(in srgb, var(--accent) 55%, transparent) 0 4px, transparent 4px);
+}
+
+.error {
+  justify-content: center;
+  color: var(--error);
+  font-weight: 600;
+  font-size: var(--t-sm);
+  letter-spacing: 0.02em;
+  --cell-bg: var(--error-soft);
+  --mark: linear-gradient(225deg, var(--error) 0 6px, transparent 6px);
+}
+
+.frozen {
+  position: sticky;
+  left: var(--rowhead-w);
+  z-index: 2;
+  border-right-color: var(--line-strong);
+}
+
+.scrolledX .frozen,
+.scrolledX .frozenHead {
+  box-shadow: 6px 0 8px -6px rgba(0, 0, 0, 0.28);
+}
+
+.sel {
+  --tint: linear-gradient(var(--accent-soft), var(--accent-soft));
+}
+
+.sel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: solid var(--accent);
+  border-width: var(--et, 0) var(--er, 0) var(--eb, 0) var(--el, 0);
+}
+
+.et { --et: 1px; }
+.eb { --eb: 1px; }
+.el { --el: 1px; }
+.er { --er: 1px; }
+
+.active::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  box-shadow: inset 0 0 0 2px var(--ring);
+}
+
+.marquee {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border: 0 dashed var(--accent);
+}
+
+.mt { border-top-width: 2px; }
+.mb { border-bottom-width: 2px; }
+.ml { border-left-width: 2px; }
+.mr { border-right-width: 2px; }
+
+.editing {
+  z-index: 3;
+  overflow: visible;
+}
+
+.editing::before {
+  display: none;
+}
+
+.editor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  max-width: 480px;
+  padding: 0 var(--s2);
+  border: 0;
+  border-radius: 2px;
+  outline: none;
+  background: var(--surface);
+  color: var(--text);
+  font: inherit;
+  font-variant-numeric: tabular-nums;
+  box-shadow: 0 0 0 2px var(--accent), var(--shadow-2);
+  cursor: text;
+}
+
+.editor:focus-visible {
+  box-shadow: 0 0 0 2px var(--accent), var(--shadow-2);
+}

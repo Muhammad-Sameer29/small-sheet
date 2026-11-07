@@ -1,0 +1,147 @@
+/*
+  Design tokens. Every size in the app comes from these two scales:
+  spacing 4 · 8 · 12 · 16 · 24 · 32 · 48 and type 11 · 12 · 13 · 15 · 20 · 28.
+  Colour is a warm neutral ramp plus one accent (a deep green) that means "you are here"
+  and "this is calculated", and one red that means "this is broken".
+*/
+:root {
+  --s1: 4px;
+  --s2: 8px;
+  --s3: 12px;
+  --s4: 16px;
+  --s5: 24px;
+  --s6: 32px;
+  --s7: 48px;
+
+  --t-xs: 11px;
+  --t-sm: 12px;
+  --t-md: 13px;
+  --t-lg: 15px;
+  --t-xl: 20px;
+  --t-2xl: 28px;
+
+  --r-sm: 4px;
+  --r-md: 6px;
+  --r-lg: 10px;
+  --r-pill: 999px;
+
+  --font: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Text", "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+
+  --row-h: 28px;
+  --head-h: 28px;
+  --rowhead-w: 56px;
+
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+  --fast: 120ms;
+  --slow: 220ms;
+
+  color-scheme: light;
+  --bg: #f5f4f0;
+  --surface: #ffffff;
+  --surface-2: #f3f2ee;
+  --surface-3: #e9e7e1;
+  --line: #e6e3dc;
+  --line-strong: #d2cec5;
+  --text: #1c1b19;
+  --text-2: #57544e;
+  --text-3: #6d6962;
+  --accent: #1c6b56;
+  --accent-strong: #145443;
+  --accent-text: #ffffff;
+  --accent-soft: rgba(28, 107, 86, 0.1);
+  --accent-softer: rgba(28, 107, 86, 0.06);
+  --computed: #175c4a;
+  --error: #b42318;
+  --error-soft: #fdeeec;
+  --warn: #9a5b00;
+  --warn-soft: #fff4e0;
+  --shadow-1: 0 1px 2px rgba(28, 27, 25, 0.06), 0 1px 1px rgba(28, 27, 25, 0.04);
+  --shadow-2: 0 8px 24px rgba(28, 27, 25, 0.12), 0 2px 6px rgba(28, 27, 25, 0.08);
+  --focus: 0 0 0 2px var(--surface), 0 0 0 4px var(--accent);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #111312;
+    --surface: #171918;
+    --surface-2: #1d201f;
+    --surface-3: #282b2a;
+    --line: #262a28;
+    --line-strong: #373b39;
+    --text: #ecebe7;
+    --text-2: #aeaca6;
+    --text-3: #8f8d87;
+    --accent: #4fc8a2;
+    --accent-strong: #79dcbc;
+    --accent-text: #0b1f19;
+    --accent-soft: rgba(79, 200, 162, 0.16);
+    --accent-softer: rgba(79, 200, 162, 0.08);
+    --computed: #86dcc0;
+    --error: #ff8b7b;
+    --error-soft: rgba(255, 110, 90, 0.13);
+    --warn: #f4b860;
+    --warn-soft: rgba(244, 184, 96, 0.12);
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+    --shadow-2: 0 10px 30px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: var(--t-md) / 1.4 var(--font);
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: none;
+  box-shadow: var(--focus);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

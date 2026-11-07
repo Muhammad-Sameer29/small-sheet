@@ -1,0 +1,111 @@
+.tabs {
+  display: flex;
+  align-items: stretch;
+  gap: 2px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabs::-webkit-scrollbar {
+  display: none;
+}
+
+.tab,
+.add {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: none;
+  height: 32px;
+  padding: 0 var(--s4);
+  border: 0;
+  border-radius: 0 0 var(--r-md) var(--r-md);
+  background: transparent;
+  color: var(--text-2);
+  font-size: var(--t-md);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: background var(--fast) var(--ease), color var(--fast) var(--ease);
+}
+
+.tab:hover,
+.add:hover:not(:disabled) {
+  background: var(--surface-3);
+  color: var(--text);
+}
+
+.active,
+.active:hover {
+  background: var(--surface);
+  color: var(--accent-strong);
+  font-weight: 600;
+  box-shadow: var(--shadow-1);
+}
+
+/* The active tab hangs from the grid's bottom edge. */
+.active::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: var(--s3);
+  right: var(--s3);
+  height: 2px;
+  border-radius: 0 0 2px 2px;
+  background: var(--accent);
+}
+
+.add {
+  padding: 0 var(--s3);
+  color: var(--text-3);
+}
+
+.add:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+.renameWrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.rename {
+  height: 28px;
+  margin: 2px var(--s1) 0;
+  padding: 0 var(--s2);
+  border: 1px solid var(--accent);
+  border-radius: var(--r-sm);
+  background: var(--surface);
+  font-weight: 600;
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.rename:focus-visible {
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.renameBad,
+.renameBad:focus-visible {
+  border-color: var(--error);
+  box-shadow: 0 0 0 3px var(--error-soft);
+}
+
+.problem {
+  position: fixed;
+  bottom: 52px;
+  padding: var(--s1) var(--s2);
+  border-radius: var(--r-sm);
+  background: var(--error);
+  color: var(--surface);
+  font-size: var(--t-sm);
+  white-space: nowrap;
+}
+
+@media (pointer: coarse) {
+  .tab,
+  .add {
+    height: 40px;
+  }
+}

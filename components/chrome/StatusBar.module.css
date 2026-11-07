@@ -1,0 +1,43 @@
+.status {
+  display: flex;
+  align-items: center;
+  gap: var(--s4);
+  flex: none;
+  font-size: var(--t-sm);
+  color: var(--text-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.mode {
+  padding: 2px var(--s2);
+  border-radius: var(--r-sm);
+  background: var(--surface-3);
+  color: var(--text-2);
+  font-size: var(--t-xs);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.stat {
+  display: flex;
+  align-items: baseline;
+  gap: var(--s1);
+}
+
+.label {
+  color: var(--text-3);
+}
+
+/* Fixed minimum width so the bar doesn't twitch as the numbers change. */
+.value {
+  min-width: 5ch;
+  color: var(--text);
+  font-weight: 600;
+}
+
+@media (max-width: 720px) {
+  .mode {
+    display: none;
+  }
+}

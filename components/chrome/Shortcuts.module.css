@@ -1,0 +1,77 @@
+.dialog {
+  width: min(720px, calc(100vw - 32px));
+  max-height: calc(100vh - 64px);
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  color: var(--text);
+  box-shadow: var(--shadow-2);
+}
+
+.dialog[open] {
+  animation: pop var(--slow) var(--ease);
+}
+
+.dialog::backdrop {
+  background: rgba(0, 0, 0, 0.32);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--s4) var(--s5);
+  border-bottom: 1px solid var(--line);
+}
+
+.title {
+  margin: 0;
+  font-size: var(--t-lg);
+  font-weight: 650;
+}
+
+.groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--s5);
+  padding: var(--s5);
+}
+
+.group {
+  margin: 0 0 var(--s3);
+  color: var(--text-3);
+  font-size: var(--t-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.list {
+  display: grid;
+  gap: var(--s2);
+  margin: 0;
+}
+
+.item dt {
+  margin: 0;
+}
+
+.item dd {
+  margin: 2px 0 0;
+  color: var(--text-2);
+  font-size: var(--t-sm);
+}
+
+.item kbd {
+  font-family: var(--mono);
+  font-size: var(--t-sm);
+  font-weight: 600;
+}
+
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+}

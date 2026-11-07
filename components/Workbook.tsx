@@ -30,6 +30,7 @@ import { Shortcuts } from "./chrome/Shortcuts";
 import { EmptyHint, GridSkeleton, Screen } from "./screens/Screens";
 import { Button, IconButton } from "./ui/Button";
 import { Icon } from "./ui/Icon";
+import { ThemeToggle } from "./chrome/ThemeToggle";
 import s from "./Workbook.module.css";
 
 type Load = { id: string; state: "loading" | "ready" | "missing" | "error"; message?: string };
@@ -797,6 +798,7 @@ export function Workbook({ initialSheets }: { initialSheets: SheetMeta[] }) {
             }}
           />
           <IconButton icon="keyboard" label="Keyboard shortcuts" onClick={() => dialogRef.current?.showModal()} />
+          <ThemeToggle />
         </div>
         <div className={s.save}>
           <SaveStatus status={saveStatus} onRetry={retryAll} />

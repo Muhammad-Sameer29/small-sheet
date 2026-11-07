@@ -13,9 +13,15 @@ export const viewport: Viewport = {
   ],
 };
 
+const THEME_SCRIPT = `try{var t=localStorage.getItem("small-sheet:theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}`;
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
+    // The script runs before first paint so a stored theme never flashes the other one.
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: THEME_SCRIPT }} />
+      </head>
       <body>{children}</body>
     </html>
   );

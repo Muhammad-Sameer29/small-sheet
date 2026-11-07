@@ -62,8 +62,10 @@
   --focus: 0 0 0 2px var(--surface), 0 0 0 4px var(--accent);
 }
 
+/* Dark tokens apply when the system asks for dark, unless the person picked light with the
+   theme button; or whenever they picked dark. The choice is stored on <html data-theme>. */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     color-scheme: dark;
     --bg: #111312;
     --surface: #171918;
@@ -87,6 +89,31 @@
     --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
     --shadow-2: 0 10px 30px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
   }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #111312;
+  --surface: #171918;
+  --surface-2: #1d201f;
+  --surface-3: #282b2a;
+  --line: #262a28;
+  --line-strong: #373b39;
+  --text: #ecebe7;
+  --text-2: #aeaca6;
+  --text-3: #8f8d87;
+  --accent: #4fc8a2;
+  --accent-strong: #79dcbc;
+  --accent-text: #0b1f19;
+  --accent-soft: rgba(79, 200, 162, 0.16);
+  --accent-softer: rgba(79, 200, 162, 0.08);
+  --computed: #86dcc0;
+  --error: #ff8b7b;
+  --error-soft: rgba(255, 110, 90, 0.13);
+  --warn: #f4b860;
+  --warn-soft: rgba(244, 184, 96, 0.12);
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow-2: 0 10px 30px rgba(0, 0, 0, 0.5), 0 2px 6px rgba(0, 0, 0, 0.4);
 }
 
 *,

@@ -15,7 +15,7 @@
 }
 
 .text {
-  display: flex;
+  display: inline;
 }
 
 .saved {

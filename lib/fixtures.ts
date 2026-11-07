@@ -24,7 +24,7 @@ function budget(): SheetDoc {
   const around = (base: number, spread = 0.12, step = 50) =>
     Math.round((base * (1 - spread + rand() * spread * 2)) / step) * step;
 
-  set("A1", "Northwind Studio · FY2027 budget");
+  set("A1", "Northwind · FY2027 budget");
   ["Q1", "Q2", "Q3", "Q4", "Year", "% of revenue"].forEach((h, i) => set(`${colName(i + 1)}3`, h));
 
   // Line items: [row, label, base per quarter] — or a formula builder for derived lines.
@@ -51,7 +51,7 @@ function budget(): SheetDoc {
   ], 9, "Total revenue");
 
   section(11, "People", [
-    [12, "Salaries", 58000],
+    [12, "Salaries", 46000],
     [13, "Payroll taxes", (q) => `=${q}12*$B$46`],
     [14, "Contractors", (q) => `=${q}48*$B$47`],
     [15, "Benefits", 6400],
@@ -87,12 +87,12 @@ function budget(): SheetDoc {
     for (const q of QUARTERS) set(`${q}${row}`, f(q));
     set(`F${row}`, `=SUM(B${row}:E${row})`);
   }
-  set("A41", "Net margin");
-  for (const q of [...QUARTERS, "F"]) set(`${q}41`, `=${q}40/${q}9`);
+  set("A41", "Net margin %");
+  for (const q of [...QUARTERS, "F"]) set(`${q}41`, `=ROUND(${q}40/${q}9*100,1)`);
 
   // Share of revenue for every line and subtotal under Revenue.
   for (const row of [5, 6, 7, 8, 9, 12, 13, 14, 15, 16, 17, 20, 21, 22, 23, 26, 27, 28, 29, 32, 33, 34, 35, 37, 40]) {
-    set(`G${row}`, `=F${row}/$F$9`);
+    set(`G${row}`, `=ROUND(F${row}/$F$9*100,1)`);
   }
 
   set("A43", "Assumptions");
@@ -167,7 +167,7 @@ function orders(): SheetDoc {
     rows: total,
     cols: 12,
     frozen: true,
-    colWidths: { 0: 100, 1: 104, 3: 128, 4: 140 },
+    colWidths: { 0: 100, 1: 104, 3: 128, 4: 140, 8: 120, 9: 120, 10: 120, 11: 120 },
     cells,
   };
 }

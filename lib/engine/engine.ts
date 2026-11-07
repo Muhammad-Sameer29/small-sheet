@@ -412,11 +412,23 @@ export class SheetEngine {
   }
 
   private call(name: string, args: Node[]): Value {
+    if (name === "ROUND") return this.round(args);
     const fn = FUNCTIONS[name];
-    if (!fn) return new CellError("#NAME?", `There's no function called ${name}. Try SUM, AVG, MIN, MAX or COUNT`);
+    if (!fn) return new CellError("#NAME?", `There's no function called ${name}. Try SUM, AVG, MIN, MAX, COUNT or ROUND`);
     const nums = this.numbersIn(args);
     if (isError(nums)) return nums;
     return fn(nums);
+  }
+
+  // ROUND(value, digits) works on single values rather than ranges, so it sits apart.
+  private round(args: Node[]): Value {
+    if (args.length < 1 || args.length > 2) return new CellError("#ERROR!", "ROUND takes a value and, optionally, how many digits to keep");
+    const x = toNumber(this.ev(args[0]));
+    if (isError(x)) return x;
+    const d = args[1] ? toNumber(this.ev(args[1])) : 0;
+    if (isError(d)) return d;
+    const f = Math.pow(10, Math.trunc(d));
+    return Math.round(x * f + Math.sign(x) * 1e-9) / f;
   }
 }
 

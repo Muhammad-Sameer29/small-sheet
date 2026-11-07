@@ -51,12 +51,14 @@ describe("formulas", () => {
   });
 
   it("handles ranges and functions, skipping text and blanks", () => {
-    const e = sheet({ A1: "10", A2: "note", A3: "20", B1: "=SUM(A1:A5)", B2: "=AVG(A1:A5)", B3: "=COUNT(A1:A5)", B4: "=MAX(A1:A3, 99)", B5: "=sum(a1:a3)" });
+    const e = sheet({ A1: "10", A2: "note", A3: "20", B1: "=SUM(A1:A5)", B2: "=AVG(A1:A5)", B3: "=COUNT(A1:A5)", B4: "=MAX(A1:A3, 99)", B5: "=sum(a1:a3)", B6: "=ROUND(2/3*100,1)", B7: "=ROUND(-2.5)" });
     expect(at(e, "B1")).toBe(30);
     expect(at(e, "B2")).toBe(15);
     expect(at(e, "B3")).toBe(2);
     expect(at(e, "B4")).toBe(99);
     expect(at(e, "B5")).toBe(30);
+    expect(at(e, "B6")).toBe(66.7);
+    expect(at(e, "B7")).toBe(-3);
   });
 
   it("treats an empty reference as zero", () => {
